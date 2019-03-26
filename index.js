@@ -3,6 +3,7 @@ const express = require('express');
 
 const db = require('./data/db');
 const server = express();
+server.use(express.json()); // helps pass body and turns it into json
 
 server.get('/api/users', (req, res) => {
     db.find()
