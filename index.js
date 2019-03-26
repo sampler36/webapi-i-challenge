@@ -36,7 +36,7 @@ server.get('/api/users', (req, res) => {
     // const user = {name:req.body.name, bio:req.body.bio}
     if (!req.body){
         res.status(400).json({
-            message: 'Cant find ID'
+            message: 'Bad Request'
         })
     }
             db.insert(req.body)
@@ -49,7 +49,7 @@ server.get('/api/users', (req, res) => {
                .catch(({ code, message }) => {
                    res.status(code).json({
                     success:false,
-                    message: message
+                    message:"Please provide name and bio for the user."
                    })   
                })
             })
@@ -66,7 +66,33 @@ server.get('/api/users', (req, res) => {
                     })
                 })
             })
-
+         server.put('/api/users/:id', (req, res) => {
+                const id = req.params.id;
+                const changes = req.body;
+        
+                db.update(id, changes)
+                  .then((updated) => {
+                    if(updated){
+                      res.status(201).json({
+                        success: true,
+                        updated
+                      })
+                    }
+                    else{
+                      res.status(500).json({
+                        success: false,
+                        message: "The user could not be removed"
+                      })
+                    }
+                  })
+                  .catch(( { code, message } ) => {
+                    res.status(code).json({
+                      success: false,
+                      message
+                    })
+                  })
+              })
+    
     
 server.listen(4005, () =>
   console.log('**** Server running **** ')
