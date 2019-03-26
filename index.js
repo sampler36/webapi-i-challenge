@@ -31,6 +31,28 @@ server.get('/api/users', (req, res) => {
            })
         })
 
+     server.post('/api/users', (req, res) => {
+    // const user = {name:req.body.name, bio:req.body.bio}
+    if (!req.body){
+        res.status(400).json({
+            message: 'Cant find ID'
+        })
+    }
+            db.insert(req.body)
+               .then(users => {
+                   res.status(200).json({
+                       success: true,
+                       users
+                   })
+               })
+               .catch(({ code, message }) => {
+                   res.status(code).json({
+                    success:false,
+                    message: message
+                   })   
+               })
+            })
+    
 server.listen(4005, () =>
   console.log('**** Server running **** ')
 );
