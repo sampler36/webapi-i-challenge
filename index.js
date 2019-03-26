@@ -53,6 +53,20 @@ server.get('/api/users', (req, res) => {
                    })   
                })
             })
+
+    server.delete('/api/users/:id', (req, res) => {
+                db.remove(req.params.id)
+                .then(deleted => {
+                    res.status(204).end();
+                })
+                .catch(({code, message}) => {
+                    res.status(code).json({
+                        success:false,
+                        message,
+                    })
+                })
+            })
+
     
 server.listen(4005, () =>
   console.log('**** Server running **** ')
